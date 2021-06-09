@@ -427,22 +427,6 @@ void Dispatcher::onEvent(cl_event event, cl_int status, Device & d) {
 
 // This is run when m_mutex is held.
 void Dispatcher::printSpeed() {
-	++m_countPrint;
-	if( m_countPrint > m_vDevices.size() ) {
-		std::string strGPUs;
-		double speedTotal = 0;
-		unsigned int i = 0;
-		for (auto & e : m_vDevices) {
-			const auto curSpeed = e->m_speed.getSpeed();
-			speedTotal += curSpeed;
-			strGPUs += " GPU" + toString(e->m_index) + ": " + formatSpeed(curSpeed);
-			++i;
-		}
-
-		const std::string strVT100ClearLine = "\33[2K\r";
-		std::cerr << strVT100ClearLine << "Total: " << formatSpeed(speedTotal) << " -" << strGPUs << '\r' << std::flush;
-		m_countPrint = 0;
-	}
 }
 
 void CL_CALLBACK Dispatcher::staticCallback(cl_event event, cl_int event_command_exec_status, void * user_data) {
